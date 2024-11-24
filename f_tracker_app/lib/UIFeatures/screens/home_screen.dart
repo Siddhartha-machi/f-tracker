@@ -8,12 +8,14 @@ class HomeScreen extends StatelessWidget {
     super.key,
     required this.bottomSheetHandler,
     required this.workoutItems,
+    required this.filtersHandler,
     required this.deleteHandler,
   });
 
   final void Function(BuildContext, {CWorkoutActivity? item})
       bottomSheetHandler;
   final List<CWorkoutActivity> workoutItems;
+  final Function() filtersHandler;
   final Function(CWorkoutActivity) deleteHandler;
 
   final double _padding = 10.0;
@@ -151,7 +153,10 @@ class HomeScreen extends StatelessWidget {
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
         SizedBox(width: _padding),
-        IconButton(onPressed: () {}, icon: const Icon(Icons.filter_alt_rounded))
+        IconButton(
+          onPressed: filtersHandler,
+          icon: const Icon(Icons.filter_alt_rounded),
+        )
       ],
     );
   }

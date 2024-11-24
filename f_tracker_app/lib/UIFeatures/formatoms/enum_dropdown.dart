@@ -19,7 +19,7 @@ class EnumDropdown<T extends Enum> extends StatelessWidget {
   final GlobalKey<FormBuilderState> formKey;
 
   T get _initialValue {
-    T? stateInitValue = formKey.currentState?.initialValue[label];
+    T? stateInitValue = formKey.currentState?.initialValue[accessKey];
 
     return Global.isSafe(stateInitValue) ? stateInitValue! : options[0];
   }

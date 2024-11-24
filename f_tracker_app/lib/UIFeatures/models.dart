@@ -9,6 +9,19 @@ enum Weekday { monday, tuesday, wednesday, thursday, friday, saturday, sunday }
 
 enum DayShift { morning, evening, night }
 
+enum FilterWeekday {
+  all,
+  monday,
+  tuesday,
+  wednesday,
+  thursday,
+  friday,
+  saturday,
+  sunday
+}
+
+enum FilterDayShift { all, morning, evening, night }
+
 // Models
 class CWorkoutActivity {
   CWorkoutActivity(

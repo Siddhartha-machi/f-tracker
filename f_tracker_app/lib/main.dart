@@ -176,14 +176,11 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
                       value: _selectedType,
                       key: const Key('workoutTypeDropdown'),
                       onChanged: (String? newValue) {
-
-                         /*
-                        
-                         Update the _selectedType variable with the new dropdown value inside the onChanged callback, 
-                         and use setState() to rebuild the UI.
-                          
-                        */
-
+                        if (newValue != null) {
+                          setState(() {
+                            _selectedType = newValue;
+                          });
+                        }
                       },
                       decoration: const InputDecoration(
                         labelText: 'Workout Type',
@@ -214,14 +211,11 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
                       value: _selectedDay,
                       key: const Key('dayDropdown'),
                       onChanged: (String? newValue) {
-
-                         /*
-                        
-                         Update the _selectedDay variable with the new dropdown value inside the onChanged callback, 
-                         and use setState() to rebuild the UI.
-                          
-                        */
-
+                        if (newValue != null) {
+                          setState(() {
+                            _selectedDay = newValue;
+                          });
+                        }
                       },
                       decoration: const InputDecoration(
                         labelText: 'Day',
@@ -249,14 +243,11 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
                       value: _selectedTime,
                       key: const Key('timeDropdown'),
                       onChanged: (String? newValue) {
-
-                         /*
-                        
-                         Update the _selectedTime variable with the new dropdown value inside the onChanged callback, 
-                         and use setState() to rebuild the UI.
-                          
-                        */
-
+                        if (newValue != null) {
+                          setState(() {
+                            _selectedTime = newValue;
+                          });
+                        }
                       },
                       decoration: const InputDecoration(
                         labelText: 'Time',
@@ -300,14 +291,9 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
                       value: _filterDay,
                       key: const Key('filterDayDropdown'),
                       onChanged: (String? newValue) {
-                        
-                         /*
-                        
-                         Update the _filterDay variable with the new dropdown value inside the onChanged callback, 
-                         and use setState() to rebuild the UI.
-                          
-                        */
-
+                        setState(() {
+                          _filterDay = newValue;
+                        });
                       },
                       decoration: const InputDecoration(
                         labelText: 'Filter by Day',
@@ -315,15 +301,15 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
                       ),
                       items: <String?>
                         [
-                          null,
-                          'Monday', 
-                          'Tuesday', 
-                          'Wednesday', 
-                          'Thursday', 
-                          'Friday', 
-                          'Saturday', 
-                          'Sunday'
-                        ].map<DropdownMenuItem<String>>((String? value) {
+                        null,
+                        'Monday',
+                        'Tuesday',
+                        'Wednesday',
+                        'Thursday',
+                        'Friday',
+                        'Saturday',
+                        'Sunday'
+                      ].map<DropdownMenuItem<String>>((String? value) {
                         return DropdownMenuItem<String>(
                           value: value,
                           child: Text(value ?? 'All Days'),
@@ -337,14 +323,9 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
                       value: _filterTime,
                       key: const Key('filterTimeDropdown'),
                       onChanged: (String? newValue) {
-                        
-                         /*
-                        
-                         Update the _filterTime variable with the new dropdown value inside the onChanged callback, 
-                         and use setState() to rebuild the UI.
-                          
-                        */
-
+                        setState(() {
+                          _filterTime = newValue;
+                        });
                       },
                       decoration: const InputDecoration(
                         labelText: 'Filter by Time',

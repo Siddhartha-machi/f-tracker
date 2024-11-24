@@ -103,27 +103,21 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
   }
 
   int get _totalCalories {
-
-    /*
-    
-      Calculate the total calories burned from all the workouts in the list.
-    
-    */
-
-    return 0;
-
+    return _workouts.fold(0, (sum, item) => sum + (item['calories'] as int));
   }
 
   List<Map<String, dynamic>> get _filteredWorkouts {
-    
-    /*
-      
-      Allow the user to filter all workouts according to day and time of workout.
-    
-    */
+    List<Map<String, dynamic>> filteredList = _workouts;
+    if (_filterDay != null) {
+      filteredList =
+          _workouts.where((item) => item['day'] == _filterDay).toList();
+    }
+    if (_filterTime != null) {
+      filteredList =
+          filteredList.where((item) => item['time'] == _filterTime).toList();
+    }
 
-    return _workouts;
-
+    return filteredList;
   }
 
   @override

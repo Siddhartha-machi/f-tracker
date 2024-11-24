@@ -45,35 +45,47 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
   String? _errorMessage;
 
   void _addWorkout() {
+    // Extract all fields values
+    final exercise = _exerciseController.text;
+    final duration = _durationController.text;
+    final calories = _caloriesController.text;
+    final notes = _notesController.text;
 
+    // Run validations and set appropriate error messages
+    if (CValid.isNull(exercise) ||
+        CValid.isNull(duration) ||
+        CValid.isNull(calories)) {
+      return setState(() {
+        _errorMessage = 'All fields are required!';
+      });
+    } else if (CValid.isNotNum(duration) || CValid.isNotNum(calories)) {
+      return setState(() {
+        _errorMessage = 'Duration and Calories must be numeric!';
+      });
+    }
 
-    /*
-      
-       Extract User Input:
-          Extract the values from the text fields.
-          Extract exercise (workout name), duration (workout length), calories, and notes.
+    // Add the new workout to the list
+    _workouts.add({
+      'exercise': exercise,
+      'duration': int.parse(duration),
+      'calories': int.parse(calories),
+      'notes': notes,
+      'type': _selectedType,
+      'day': _selectedDay,
+      'time': _selectedTime
+    });
 
-      Add Input Validation (Empty Fields Check):
-          Add a check to ensure that none of the required fields (i.e., exercise, duration, and calories) are empty:
-          If any field is empty, set an error message 'All fields are required!' and return from the function to prevent further execution.
+    // Reset values in the controllers and error state
+    _selectedType = 'Cardio';
+    _selectedDay = 'Monday';
+    _selectedTime = 'Morning';
+    _errorMessage = null;
+    _exerciseController.clear();
+    _durationController.clear();
+    _caloriesController.clear();
+    _notesController.clear();
 
-      Add Input Validation (Numeric Values Check):
-          Add validation to ensure that duration and calories contain numeric values only:
-          If the input is non-numeric, set an error message 'Duration and Calories must be numeric!' and prevent further execution.
-
-      Add the Workout to the List:
-          If all validations pass, create object that holds the workout details, including the exercise name, duration, calories burned, workout type, and any optional notes.
-          Append this workout to the _workouts list.
-
-
-      Clear Input Fields After Submission:
-          Once a workout is added, clear the input fields so the user can add the next workout:
-          Reset the dropdown for workout type back to the default ('Cardio').
-          Clear any previously set error messages.
-            
-    */
-
-
+    setState(() {});
   }
 
   void _deleteWorkout(int index) {
@@ -103,7 +115,7 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
       Calculate the total calories burned from all the workouts in the list.
     
     */
-    
+
     return 0;
 
   }
@@ -403,5 +415,16 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
       ),
       keyboardType: keyboardType,
     );
+  }
+}
+
+// A class to validate field values
+class CValid {
+  static bool isNull(value) {
+    return value == null || (value is String && value.isEmpty);
+  }
+
+  static bool isNotNum(value) {
+    return (int.tryParse(value as String) == null) || (int.parse(value) <= 0);
   }
 }

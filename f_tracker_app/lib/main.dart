@@ -28,7 +28,8 @@ class WorkoutHomePage extends StatefulWidget {
 }
 
 class _WorkoutHomePageState extends State<WorkoutHomePage> {
-  final List<Map<String, dynamic>> _workouts = [];
+  // Flutter recommends immutable approach for state variables
+  List<Map<String, dynamic>> _workouts = [];
   final TextEditingController _exerciseController = TextEditingController();
   final TextEditingController _durationController = TextEditingController();
   final TextEditingController _caloriesController = TextEditingController();
@@ -89,23 +90,16 @@ class _WorkoutHomePageState extends State<WorkoutHomePage> {
   }
 
   void _deleteWorkout(int index) {
-    
-    /*
-    
-      Allow the user to delete a specific workout from the list by its index.
-    
-    */
-
+    final deleteItem = _workouts[index];
+    setState(() {
+      _workouts = _workouts.where((item) => deleteItem != item).toList();
+    });
   }
 
   void _deleteAllWorkouts() {
-    
-    /*
-      
-      Allow the user to delete all workouts at once from the workout list.
-    
-    */
-
+    setState(() {
+      _workouts = [];
+    });
   }
 
   int get _totalCalories {

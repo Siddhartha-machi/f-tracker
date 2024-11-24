@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:f_tracker_app/UIFeatures/main_tabs.dart';
+
 void main() {
   runApp(const WorkoutTrackerApp());
 }
@@ -15,7 +17,9 @@ class WorkoutTrackerApp extends StatelessWidget {
         primarySwatch: Colors.teal,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const WorkoutHomePage(),
+      
+      // home: const WorkoutHomePage(),
+      home: const UiEnchancedApp(),
     );
   }
 }

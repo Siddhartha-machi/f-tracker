@@ -15,13 +15,53 @@ class UiEnchancedApp extends StatefulWidget {
 }
 
 class _EnhancedFeatureState extends State<UiEnchancedApp> {
-  List<CWorkoutActivity> activityItems = [];
+  List<CWorkoutActivity> activityItems = [
+    CWorkoutActivity(
+      exercise: 'Test',
+      duration: 12,
+      calories: 12,
+      type: ActivityType.cardio,
+      day: Weekday.friday,
+      time: DayShift.evening,
+    ),
+    CWorkoutActivity(
+      exercise: 'Test',
+      duration: 12,
+      calories: 12,
+      type: ActivityType.flexibility,
+      day: Weekday.saturday,
+      time: DayShift.evening,
+    ),
+    CWorkoutActivity(
+      exercise: 'Test',
+      duration: 12,
+      calories: 12,
+      type: ActivityType.strength,
+      day: Weekday.monday,
+      time: DayShift.morning,
+    ),
+    CWorkoutActivity(
+      exercise: 'Test',
+      duration: 12,
+      calories: 12,
+      type: ActivityType.flexibility,
+      day: Weekday.friday,
+      time: DayShift.evening,
+    ),
+  ];
 
   final formKey = GlobalKey<FormBuilderState>();
 
   void addToActivityItems(CWorkoutActivity item) {
     setState(() {
       activityItems.add(item);
+    });
+  }
+
+  void deleteActivityItem(CWorkoutActivity deleteItem) {
+    setState(() {
+      activityItems =
+          activityItems.where((item) => deleteItem != item).toList();
     });
   }
 
@@ -56,6 +96,7 @@ class _EnhancedFeatureState extends State<UiEnchancedApp> {
       body: HomeScreen(
         workoutItems: activityItems,
         bottomSheetHandler: _showAddTrackerItemSheet,
+        deleteHandler: deleteActivityItem,
       ),
     );
   }

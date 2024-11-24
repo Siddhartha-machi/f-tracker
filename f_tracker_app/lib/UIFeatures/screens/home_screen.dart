@@ -8,13 +8,35 @@ class HomeScreen extends StatelessWidget {
     super.key,
     required this.bottomSheetHandler,
     required this.workoutItems,
+    required this.deleteHandler,
   });
 
   final void Function(BuildContext, {CWorkoutActivity? item})
       bottomSheetHandler;
   final List<CWorkoutActivity> workoutItems;
+  final Function(CWorkoutActivity) deleteHandler;
 
   final double _padding = 10.0;
+
+  static String _formattedDate(DateTime date) {
+    final ref = DateTime.now();
+    final elapsedDays = ref.difference(date).inDays.abs();
+    var rValue = 'Several years ago';
+
+    if (elapsedDays == 0) {
+      rValue = 'Just now';
+    } else if (elapsedDays < 7) {
+      rValue = 'A week ago';
+    } else if (elapsedDays < 31) {
+      rValue = 'A month ago';
+    } else if (elapsedDays < 365) {
+      rValue = '${(elapsedDays / 30).ceil()} months ago';
+    } else {
+      final elapsedYears = (elapsedDays / 365).ceil();
+      if (elapsedYears < 25) rValue = '$elapsedYears years ago';
+    }
+    return rValue;
+  }
 
   Map<String, dynamic> get aggregations {
     final Map<String, dynamic> result = {
@@ -178,7 +200,7 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      Global.formattedDate(item.createdAt),
+                      _formattedDate(item.createdAt),
                       style: TextStyle(fontSize: 12.0, color: Colors.grey[700]),
                     ),
                   ],
@@ -233,7 +255,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             for (final item in workoutItems) ...[
-              _activityItem(item),
+              _dissmibleWrap(item),
               const Divider(),
             ]
           ],
@@ -242,7 +264,35 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  //
+  Widget _dissmibleWrap(CWorkoutActivity item) {
+    return Dismissible(
+      background: Container(
+        decoration: const BoxDecoration(color: Colors.red),
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 8.0),
+              child: Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(right: 8.0),
+              child: Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
+            )
+          ],
+        ),
+      ),
+      key: ValueKey(item.id),
+      onDismissed: (direction) => deleteHandler(item),
+      child: _activityItem(item),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

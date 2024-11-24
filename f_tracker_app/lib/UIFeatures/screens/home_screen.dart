@@ -10,6 +10,7 @@ class HomeScreen extends StatelessWidget {
     required this.workoutItems,
     required this.filtersHandler,
     required this.deleteHandler,
+    required this.deleteBulkHandler,
   });
 
   final void Function(BuildContext, {CWorkoutActivity? item})
@@ -17,6 +18,7 @@ class HomeScreen extends StatelessWidget {
   final List<CWorkoutActivity> workoutItems;
   final Function() filtersHandler;
   final Function(CWorkoutActivity) deleteHandler;
+  final Function() deleteBulkHandler;
 
   final double _padding = 10.0;
 
@@ -152,11 +154,19 @@ class HomeScreen extends StatelessWidget {
           'Workout Activity',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        SizedBox(width: _padding),
-        IconButton(
-          onPressed: filtersHandler,
-          icon: const Icon(Icons.filter_alt_rounded),
-        )
+        Row(
+          children: [
+            TextButton(
+              onPressed: deleteBulkHandler,
+              child: const Text('Delete all'),
+            ),
+            const SizedBox(width: 5.0),
+            IconButton(
+              onPressed: filtersHandler,
+              icon: const Icon(Icons.filter_alt_rounded),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -272,7 +282,12 @@ class HomeScreen extends StatelessWidget {
   Widget _dissmibleWrap(CWorkoutActivity item) {
     return Dismissible(
       background: Container(
-        decoration: const BoxDecoration(color: Colors.red),
+        decoration: const BoxDecoration(
+          color: Colors.red,
+          borderRadius: BorderRadius.all(
+            Radius.circular(10.0),
+          ),
+        ),
         child: const Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -299,6 +314,28 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
+  Widget get _noDatePlaceholder {
+    return Expanded(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset(
+            'assets/emptybox.png',
+            fit: BoxFit.contain,
+            width: 80,
+          ),
+          const SizedBox(height: 12),
+          Text(
+            'No data to show.\n Try adding some by clicking on the add button now.',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.grey[600]),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -312,7 +349,7 @@ class HomeScreen extends StatelessWidget {
         _statItems(context),
         SizedBox(height: _padding),
         _activityItemsHeader,
-        _activityItems(context)
+        workoutItems.isEmpty ? _noDatePlaceholder : _activityItems(context)
       ]),
     );
   }

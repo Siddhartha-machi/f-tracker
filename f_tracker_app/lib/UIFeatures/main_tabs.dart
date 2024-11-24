@@ -73,6 +73,12 @@ class _EnhancedFeatureState extends State<UiEnchancedApp> {
     });
   }
 
+  void deleteAllItems() {
+    setState(() {
+      activityItems = [];
+    });
+  }
+
   void setFiltersHandler(Map<String, Enum> newFilter) {
     setState(() {
       filters = newFilter;
@@ -219,6 +225,7 @@ class _EnhancedFeatureState extends State<UiEnchancedApp> {
         workoutItems: _filteredActivityItems,
         bottomSheetHandler: _showAddTrackerItemSheet,
         deleteHandler: deleteActivityItem,
+        deleteBulkHandler: deleteAllItems,
         filtersHandler: () => _showFiltersDialog(context),
       ),
     );

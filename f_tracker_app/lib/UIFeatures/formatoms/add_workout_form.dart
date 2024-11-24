@@ -75,6 +75,9 @@ class AddWorkoutForm extends StatelessWidget {
       );
       showSuccessMessage(context);
       formKey.currentState!.reset();
+      formKey.currentState!.fields['workoutType']!.reset();
+      formKey.currentState!.fields['day']!.reset();
+      formKey.currentState!.fields['time']!.reset();
     }
   }
 
